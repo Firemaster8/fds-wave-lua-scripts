@@ -1,3 +1,5 @@
+require("MouseState")
+
 Selector = {
 index =0,
 count = 0,
@@ -9,6 +11,13 @@ waveColor = 0xFF0000,
 transparentColor = 0xFFFFFFFF,
 indexChanged = false
 }
+
+function Selector:reset()
+	self.index =0
+	self.count = 0
+	self.indexChanged = false
+end
+
 function Selector:test()
 		emu.displayMessage("test", self.index)
 end
@@ -50,24 +59,12 @@ function drawBox(box,backColor)
 	emu.drawRectangle(box.x,box.y,box.width,box.height,backColor,true); 
 end
 
-lastClick = false
-mouseState = emu.getMouseState()
-function boxClicked(box) 
-	local boxRight = box.x  + box.width
-	local boxBottom = box.y  + box.height
-	local inHorizontal = mouseState.x >= box.x and mouseState.x <= boxRight
-	local inVertical = mouseState.y >= box.y and mouseState.y <= boxBottom
-	return inHorizontal and inVertical and mouseState.left and lastClick == false
-end
-
 function Selector:checkButtons()
 	self.indexChanged = false
-	local leftBtnBox = self:getLeftBtnBox()
-	local rightBtnBox = self:getRightBtnBox()
-	if boxClicked(leftBtnBox) then
+	if MouseState:boxClicked(self:getLeftBtnBox()) then
 		self:prev()
 	end
-	if boxClicked(rightBtnBox) then
+	if MouseState:boxClicked(self:getRightBtnBox()) then
 		self:next()
 	end
 end

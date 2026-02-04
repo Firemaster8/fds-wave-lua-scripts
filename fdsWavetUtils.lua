@@ -3,7 +3,7 @@
 waveStartAddress = 0x4040
 waveEndAddress = 0x407F
 waveEnableAddress = 0x0000
-local waveByteLength = waveEndAddress -waveStartAddress +1
+waveByteLength = waveEndAddress -waveStartAddress +1
 local waveHeight = 63
 --color
 local backColor = 0x302060FF
