@@ -1,6 +1,9 @@
 require("waveDocumentorUtil")
 require("Selector")
 require("pathStuff")
+
+local parentFolder = "waves"
+
 function saveWaveData(fileName,waveData)
 	local writer = io.open(fileName,"wb");
 	if not writer then
@@ -21,7 +24,7 @@ function saveAllWaveData()
 		return
 	end
 	
-	local folder = getPathFromRom()
+	local folder = parentFolder.. "/" ..getPathFromRom()
 	checkFolder(folder)
 
 	for i =0, #foundWaveTables do
@@ -58,7 +61,7 @@ function loadWaveFile(fileName)
 end
 
 function loadWaveAllWaveData()
-	local folder = getPathFromRom()
+	local folder = parentFolder .. "/" ..getPathFromRom()
 	
 	foundWaveTables ={}
 	foundWaveTables[0] = waveBuffer
@@ -84,6 +87,7 @@ function loadWaveAllWaveData()
 		curPath = folder .. "/" .. curFile
 	end
 	Selector.count = i
+	emu.displayMessage("Load Status","File(s) loaded: " .. tostring(Selector.count))
 end
 
 

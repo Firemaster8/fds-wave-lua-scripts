@@ -9,7 +9,7 @@ end
 
 
 function checkFolder(folder)
-	local success, reason, code =os.execute("mkdir "..folder) 
+	local success, reason, code =os.execute('mkdir "'..folder .. '"') 
 	if success then
 		emu.displayMessage("IO Info", "Folder [".. folder   ..  "] Has been created!")
 	end
@@ -20,5 +20,5 @@ function getPathFromRom()
 	local dotStart,dotEnd = string.find(romStr,".",1,true)
 	local removedDotStr =string.sub(romStr,1,dotStart-1)
 	local replacedSpace = string.gsub(removedDotStr," ","_")
-	return  replacedSpace .. "_waves"
+	return  replacedSpace
 end
