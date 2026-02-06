@@ -2,7 +2,7 @@
 waveUtils = require("fdsWavetUtils");
 
 function displayFDSCallback()
-	local xOff = 4
+	local xOff = 1
 	local yOff = 1
 	
 	
@@ -11,6 +11,9 @@ function displayFDSCallback()
 	drawFDSWaveConnectedLines(xOff,yOff)
 	xOff = xOff + 70
 	drawFDSWaveVerticalLines(xOff,yOff)
+	
+	printFDSWaveValues(1,73)
+	
 end
 addWaveWriteCallback()
 --add misc callbacks

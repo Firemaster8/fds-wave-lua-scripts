@@ -56,7 +56,7 @@ function printFDSWaveValues(startX,startY,waveData)
 	local xOff = startX
 	for i = 1,#waveData do
 		 strHexValue = string.format("%x", waveData[i] )
-		 emu.drawString(xOff, yOff, strHexValue, 0x000000FF, backColor)
+		 emu.drawString(xOff, yOff, strHexValue, waveColor, backColor)
 		 xOff = xOff + 13
 		 if xOff >= 244 then 
 		 	xOff =startX
