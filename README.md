@@ -1,5 +1,5 @@
 # fds-wave-mesen-lua-script
-Some collection of mesen lua script that watches,displays, and even saves data from the fds's wave table.
+Some collection of mesen lua script that watches, displays, and even saves data from the fds's wave table.
 
 This is the first time I ever used lua, so expect some noobish coding. These scripts was made for fun but feel free to make suggestions for improvement. 
 Also feel free to use this for your own project if you like.
