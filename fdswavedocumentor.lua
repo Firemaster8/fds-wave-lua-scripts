@@ -1,5 +1,4 @@
-﻿--collect and save wave data. note wip, highly recommend editing the saving part of the script for your preference
---or just remove the feature lol
+﻿--collect and save wave data.
 require("fdsWavetUtils")
 require("Selector")
 require("MouseState")
