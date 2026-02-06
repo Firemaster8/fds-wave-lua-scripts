@@ -10,12 +10,13 @@ local backColor = 0x302060FF
 local waveColor = 0xFF0000
 waveWriteEnabled = false
 waveWritingCycleCompleted = false
---init array buffer
+--init array buffers
 waveBuffer = {}
-
+waveRamData = {}
 --reset buffer and flags
 function resetWaveUtil()
 	waveBuffer = {}
+	waveRamData = {}
 	waveWriteEnabled = false
 	waveWritingCycleCompleted = false
 end
@@ -33,10 +34,15 @@ function enableWriteCallback(address, value)
 	if enableFlag == 128 then
 		waveWriteEnabled = true
 		waveWritingCycleCompleted = false
-	end
-	if enableFlag == 0 then
+	elseif enableFlag == 0 and waveWriteEnabled then
 		waveWriteEnabled = false
 		waveWritingCycleCompleted = true
+		--tried making this worked, but each address returns 0x40
+		for address = waveStartAddress, waveEndAddress do
+			local index = (address - waveStartAddress) +1
+			local value = emu.read(address,emu.memType.nesMemory,false)
+			waveRamData[index] = value
+		end
 	end
 end
 
