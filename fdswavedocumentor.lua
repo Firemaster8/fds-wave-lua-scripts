@@ -53,4 +53,4 @@ end
 addWaveWriteCallback()
 emu.addEventCallback(mainCallback, emu.eventType.endFrame)
 --Display a startup message
-emu.displayMessage("Script", "LET'S FREAKING GOOOOOO!!!!!")
+emu.displayMessage("Script", "Wave table documentor started!")

@@ -25,8 +25,12 @@ function Selector:next()
 		if self.count == 0 then
 			return
 		end
-		self.index= (self.index + 1) % self.count
-	self.indexChanged = true
+		self.index= (self.index + 1)
+		--idk how to be fancy with % when the index starts at 1
+		if self.index > self.count then
+			self.index = 1
+		end
+		self.indexChanged = true
 end
 
 function Selector:changeIndex(value)
@@ -39,8 +43,8 @@ function Selector:prev()
 			return
 		end
 		self.index= (self.index - 1)
-		if self.index < 0 then
-		self.index= self.count -1
+		if self.index < 1 then
+		self.index= self.count
 		end
 	self.indexChanged = true
 end

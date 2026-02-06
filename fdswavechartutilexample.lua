@@ -2,8 +2,9 @@
 waveUtils = require("fdsWavetUtils");
 
 function displayFDSCallback()
-	local xOff = 1
+	local xOff = 4
 	local yOff = 1
+	
 	
 	drawFDSWaveDots(xOff,yOff)
 	xOff = xOff + 70
