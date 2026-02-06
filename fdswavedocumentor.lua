@@ -37,7 +37,10 @@ function mainCallback()
 	saveButton:checkClick()
 	loadButton:checkClick()
 	clearButton:checkClick()
-	dispWave= foundWaveTables[Selector.index]
+	dispWave= waveBuffer
+	if #foundWaveTables ~= 0 then
+		dispWave= foundWaveTables[Selector.index].waveData
+	end
 	drawFDSWaveVerticalLines(1,1,dispWave)
 	
 	Selector:draw()

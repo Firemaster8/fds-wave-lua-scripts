@@ -1,5 +1,6 @@
 require("fdsWavetUtils")
 require("Selector")
+require("WaveformInfo")
 foundWaveTables ={}
 function wavesMatched(wave1,wave2)
 	for i = 1,#wave1 do
@@ -13,7 +14,7 @@ end
 function getWaveCopy()
 	copyBuffer = {}
 	for i =1, #waveBuffer do
-		copyBuffer[i] = waveBuffer[i];
+		copyBuffer[i] = waveBuffer[i]
 	end
 	return copyBuffer
 end
@@ -23,7 +24,7 @@ function getWaveIndex(waveData)
 		return -1
 	end
 	for i = 1,#foundWaveTables do
-		curWave = foundWaveTables[i]
+		curWave = foundWaveTables[i].waveData
 		if wavesMatched(curWave,waveData) then
 			return i
 		end
@@ -38,7 +39,7 @@ function checkWaveBuffer()
 	local index = getWaveIndex(waveBuffer)
 	--if wave not in list add it
 	if index ==-1 then
-		foundWaveTables[#foundWaveTables+1] =  getWaveCopy()
+		foundWaveTables[#foundWaveTables+1] = WaveformInfo:new(#foundWaveTables+1,getWaveCopy())
 		Selector.count = #foundWaveTables
 		Selector:changeIndex(Selector.count)
 	else

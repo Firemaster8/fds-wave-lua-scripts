@@ -3,16 +3,16 @@ require("Selector")
 require("pathStuff")
 
 local parentFolder = "waves"
+local metadataFileName = "metadata.csv"
 
-function saveWaveData(fileName,waveData)
-	local writer = io.open(fileName,"wb");
+function saveMetadata(path)
+	local writer = io.open(path,"w");
 	if not writer then
-		emu.displayMessage("Save Status", "File [".. fileName   ..  "] could not be writtern!")
+		emu.displayMessage("Save Status", "File [".. path   ..  "] could not be writtern!")
 		return false
 	end
-	for i =1, #waveData do
-		local curByte =	string.char(waveData[i])
-		writer:write(curByte)
+	for i = 1, #foundWaveTables do
+		writer:write(foundWaveTables[i]:toString() .. "\n")
 	end
 	writer:close();
 	return true
@@ -23,65 +23,52 @@ function saveAllWaveData()
 		emu.displayMessage("Save Status","No data available!")
 		return
 	end
-	
 	local folder = parentFolder.. "/" ..getPathFromRom()
+	local metadataFilePath = folder.. "/" .. metadataFileName
 	checkFolder(folder)
-
+	saveMetadata(metadataFilePath)
 	for i =1, #foundWaveTables do
 		local fileName = "wave" .. tostring(i) .. ".bin"
-		if saveWaveData(folder.. "/" .. fileName,foundWaveTables[i]) == false then
+		if foundWaveTables[i]:saveWaveData(folder) == false then
 			return
 		end
-	end
+	end 
 	emu.displayMessage("Save Status","Data Saved!")
 end
 
-function loadWaveFile(fileName)
-	local reader = io.open(fileName,"rb");
+
+function loadWaveformInfoFromMeta(path,folder)
+	local reader = io.open(path,"rb");
+	waveInfos = {}
 	if not reader then
 		emu.displayMessage("Load Status", "File [".. fileName   ..  "] could not be read!")
 		return nil
 	end
-	local fileData =  reader:read("*all") 
-	waveData = {string.byte(fileData, 1,#fileData)}
-	for i =1, #waveData do
-		if waveData[i] == nil then
-			emu.displayMessage("Load Status","Data in ".. fileName .." has bad data, index: "
-			 .. tostring(i))
+	for line in reader:lines() do
+		local curInfo = WaveformInfo:stringToWaveinfo(line)
+		if curInfo:loadWaveFile(folder) == false then 
 			return nil
 		end
-	end
+		waveInfos[curInfo.id] = curInfo
+    	end
 	reader:close()
-	return waveData
+	return waveInfos
 end
 
 function loadWaveAllWaveData()
-	local folder = parentFolder .. "/" ..getPathFromRom()
 	resetEverything()
-	local i = 1
-	local curFile = "wave" .. tostring(i) .. ".bin"
-	local curPath = folder .. "/" .. curFile
-	if pathExists(curPath) == false then
+	local folder = parentFolder .. "/" ..getPathFromRom()
+	local curMetaPath = folder .. "/" .. metadataFileName
+	if pathExists(curMetaPath) == false then
 		emu.displayMessage("Load Status","No data available!")
 		return
 	end
-	while pathExists(curPath) do
-		-- load file
-		local curData =loadWaveFile(curPath);
-		if curData == nil then
-			resetEverything()
-			return
-		elseif curData[1] == nil then
-			emu.displayMessage("Load Status","An unexpected error occured when loading ".. curPath .."!")
-			resetEverything()
-			return
-		end
-		foundWaveTables[i] = curData
-		
-		i = i +1
-		curFile = "wave" .. tostring(i) .. ".bin"
-		curPath = folder .. "/" .. curFile
+	local loadedInfos =loadWaveformInfoFromMeta(curMetaPath,folder)
+	if loadedInfos == nil then
+		resetEverything()
+		return
 	end
+	foundWaveTables = loadedInfos
 	Selector.count = #foundWaveTables
 	Selector.index = 1
 	emu.displayMessage("Load Status","File(s) loaded: " .. tostring(#foundWaveTables))
