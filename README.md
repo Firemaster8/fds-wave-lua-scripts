@@ -24,11 +24,7 @@ Note:
 This is because the wave table cannot be read until a flag in a register is enabled. Otherwise it returns the value of the wave position... which is pretty useless.
 As of now, I have no idea how to read directly from the ram table without waiting for the flag to be enabled.
 
-<<<<<<< HEAD
 -All wavedata are stored in metadata.csv, click export to convert them to raw bin files.
-=======
--All wave files are design to work with the metadata.csv file, if you want to rename the bin files, please rename the file in the metadata file
->>>>>>> 133c14324ac20b943176d551e53f1b1b70d0c7cf
 
 -Waveforms in legend of zelda are seemingly off center by one pixel/byte. Either this is intended behavior or my indexing is off.
 
