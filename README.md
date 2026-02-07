@@ -16,7 +16,7 @@ The 2 main scripts to use:
 -"fdswavechartutilexample.lua" creates 3 different types of chart that displays the wave table along with a list of values. 
 Mostly for example purposes, feel free to use it as a template.
 
--"fdswavedocumentor.lua" used for collecting and saving wave data to bin files used throughout gameplay.
+-"fdswavedocumentor.lua" used for collecting and exporting wave data to bin files used throughout gameplay.
 
 Note:
 
