@@ -24,8 +24,7 @@ function getWaveIndex(waveData)
 		return -1
 	end
 	for i = 1,#foundWaveTables do
-		curWave = foundWaveTables[i].waveData
-		if wavesMatched(curWave,waveData) then
+		if wavesMatched(foundWaveTables[i].waveData,waveData) then
 			return i
 		end
 	end

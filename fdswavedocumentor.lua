@@ -13,7 +13,8 @@ Selector.x =92
 Selector.y =1
 saveButton = Button:new(68,1,20,"Save",saveAllWaveData)
 loadButton = Button:new(68,11,20,"Load",loadWaveAllWaveData)
-showButton = Button:new(1,1,21,"Hide",function (self) 
+exportButton = Button:new(92,21,29,"Export",exportWaveDatas)
+showButton = Button:new(1,1,21,"Hide",function (self)
 	showWave = not showWave
 	self.text = "Show"
 	if showWave then
@@ -25,7 +26,10 @@ clearButton = Button:new(68,21,22,"Clear",function()
 	emu.displayMessage("Clear", "Wave data cleared!")
 end)
 
+
+
 function mainCallback()
+	
 	MouseState:update()
 	checkWaveBuffer()
 	showButton:checkClick()
@@ -37,6 +41,7 @@ function mainCallback()
 	saveButton:checkClick()
 	loadButton:checkClick()
 	clearButton:checkClick()
+	exportButton:checkClick()
 	dispWave= waveBuffer
 	if #foundWaveTables ~= 0 then
 		dispWave= foundWaveTables[Selector.index].waveData
@@ -47,6 +52,7 @@ function mainCallback()
 	saveButton:draw()
 	loadButton:draw()
 	clearButton:draw()
+	exportButton:draw()
 end
 
 

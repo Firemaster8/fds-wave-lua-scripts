@@ -27,12 +27,6 @@ function saveAllWaveData()
 	local metadataFilePath = folder.. "/" .. metadataFileName
 	checkFolder(folder)
 	saveMetadata(metadataFilePath)
-	for i =1, #foundWaveTables do
-		local fileName = "wave" .. tostring(i) .. ".bin"
-		if foundWaveTables[i]:saveWaveData(folder) == false then
-			return
-		end
-	end 
 	emu.displayMessage("Save Status","Data Saved!")
 end
 
@@ -46,9 +40,6 @@ function loadWaveformInfoFromMeta(path,folder)
 	end
 	for line in reader:lines() do
 		local curInfo = WaveformInfo:stringToWaveinfo(line)
-		if curInfo:loadWaveFile(folder) == false then 
-			return nil
-		end
 		waveInfos[curInfo.id] = curInfo
     	end
 	reader:close()
@@ -72,4 +63,13 @@ function loadWaveAllWaveData()
 	Selector.count = #foundWaveTables
 	Selector.index = 1
 	emu.displayMessage("Load Status","File(s) loaded: " .. tostring(#foundWaveTables))
+end
+
+function exportWaveDatas()
+	local folder = parentFolder .. "/" ..getPathFromRom()
+	checkFolder(folder)
+	for i = 1, #foundWaveTables do
+		foundWaveTables[i]:exportWaveData(folder)
+	end
+	emu.displayMessage("Export Status","File(s) Exported!")
 end
