@@ -6,7 +6,7 @@ require("button")
 require("pathStuff")
 require("waveDocumentorUtil")
 require("waveDocumentorFileIO")
-
+require("TextBox")
 showWave = true
 
 Selector.x =92
@@ -42,6 +42,8 @@ function mainCallback()
 	loadButton:checkClick()
 	clearButton:checkClick()
 	exportButton:checkClick()
+	TextBox:checkClick()
+	TextBox:update()
 	dispWave= waveBuffer
 	if #foundWaveTables ~= 0 then
 		dispWave= foundWaveTables[Selector.index].waveData
@@ -53,6 +55,7 @@ function mainCallback()
 	loadButton:draw()
 	clearButton:draw()
 	exportButton:draw()
+	TextBox:draw()
 end
 
 

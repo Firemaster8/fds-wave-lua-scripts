@@ -1,7 +1,7 @@
 require("fdsWavetUtils")
-require("Selector")
-require("WaveformInfo")
+require("TextBox")
 foundWaveTables ={}
+
 function wavesMatched(wave1,wave2)
 	for i = 1,#wave1 do
 		if wave1[i] ~= wave2[i] then
@@ -40,8 +40,9 @@ function checkWaveBuffer()
 	if index ==-1 then
 		foundWaveTables[#foundWaveTables+1] = WaveformInfo:new(#foundWaveTables+1,getWaveCopy())
 		Selector.count = #foundWaveTables
-		Selector:changeIndex(Selector.count)
-	else
+		index = Selector.count
+	end
+	if Selector.autoIndexChange and TextBox.captured == false then
 		Selector:changeIndex(index)
 	end
 end
@@ -50,4 +51,5 @@ function resetEverything()
 	resetWaveUtil()
 	Selector:reset()
 	foundWaveTables ={}
+	TextBox:reset()
 end

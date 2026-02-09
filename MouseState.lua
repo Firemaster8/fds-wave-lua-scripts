@@ -22,3 +22,12 @@ function MouseState:boxClicked(box)
 	local inVertical = self.state.y >= box.y and self.state.y <= boxBottom
 	return inHorizontal and inVertical and self:leftClick()
 end
+
+function MouseState:boxOutClicked(box) 
+	local boxRight = box.x  + box.width
+	local boxBottom = box.y  + box.height
+	local inHorizontal = self.state.x >= box.x and self.state.x <= boxRight
+	local inVertical = self.state.y >= box.y and self.state.y <= boxBottom
+	local outOfRange = not (inHorizontal and inVertical)
+	return outOfRange and self:leftClick()
+end

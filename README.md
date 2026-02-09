@@ -29,3 +29,5 @@ As of now, I have no idea how to read directly from the ram table without waitin
 -Waveforms in legend of zelda are seemingly off center by one pixel/byte. Either this is intended behavior or my indexing is off.
 
 -Some waveforms in Metroid seem to be generated oddly, not sure if it was captured incorrectly or its normal.
+
+-Be very careful with what you are typing into the textbox as the hotkeys might accidently fire during typing.

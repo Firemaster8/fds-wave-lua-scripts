@@ -9,7 +9,8 @@ numBackColor = 0x302060FF,
 btnBackColor = 0x3020FFFF,
 waveColor = 0xFF0000,
 transparentColor = 0xFFFFFFFF,
-indexChanged = false
+indexChanged = false,
+autoIndexChange = true
 }
 
 function Selector:reset()
@@ -18,9 +19,6 @@ function Selector:reset()
 	self.indexChanged = false
 end
 
-function Selector:test()
-		emu.displayMessage("test", self.index)
-end
 function Selector:next()
 		if self.count == 0 then
 			return
@@ -70,6 +68,14 @@ function Selector:checkButtons()
 	end
 	if MouseState:boxClicked(self:getRightBtnBox()) then
 		self:next()
+	end
+	if MouseState:boxClicked(self:getNumberBox()) then
+		self.autoIndexChange = not self.autoIndexChange
+		local statusTxt = "off"
+		if self.autoIndexChange then
+			statusTxt = "on"
+		end
+		emu.displayMessage("Selector", "Auto switch is now " .. statusTxt)
 	end
 end
 
