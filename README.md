@@ -20,6 +20,8 @@ Mostly for example purposes, feel free to use it as a template.
 
 Note:
 
+-These script are design to work on FDS games only, also there's no safety check to see if the current game is not an FDS game. So use it at your own risk!
+
 -These scripts only capture the waves that get written to the table during runtime, rather than reading off of the ram directly. 
 This is because the wave table cannot be read until a flag in a register is enabled. Otherwise it returns the value of the wave position... which is pretty useless.
 As of now, I have no idea how to read directly from the ram table without waiting for the flag to be enabled.

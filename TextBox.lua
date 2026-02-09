@@ -26,7 +26,7 @@ function TextBox:drawCursor()
 	end
 	if self.showCursor and self.captured then
 		local boxWidth = 1
-		local boxX = self.x + (self:getCursorPos() -1) *self.charOffset
+		local boxX = self.x + (self.cursor -1) *self.charOffset
 		emu.drawRectangle(boxX ,self.y +1 ,boxWidth,self.height -2,0xFF0000,true)
 		
 	end
@@ -54,13 +54,19 @@ function TextBox:getBox()
 	return {x = self.x, y = self.y,width = (self.maxCharacter * self.charOffset) +2,height = self.height}
 end
 
-function TextBox:getCursorPos()
+function TextBox:checkCursor()
 	local curIndex = Selector.index
+	local curTextWidth  = #self:getText()
 	if self.lastIndex ~= curIndex then
-		self.cursor = #self:getText() +1
+		self.cursor = curTextWidth +1
 	end
+	if self.cursor < 1 then
+		self.cursor = 1
+	elseif self.cursor >  curTextWidth then
+		self.cursor = curTextWidth +1
+	end
+
 	self.lastIndex = curIndex
-	return self.cursor
 end
 
 function TextBox:checkClick()
@@ -76,7 +82,7 @@ function TextBox:checkClick()
 end
 
 function TextBox:insertCharacter(character)
-	local curName = foundWaveTables[Selector.index].filename
+	local curName = self:getText()
 	local left = curName:sub(1,self.cursor-1)
 	local right = curName:sub(self.cursor)
 	foundWaveTables[Selector.index].filename =left .. character .. right
@@ -86,7 +92,10 @@ end
 
 
 function TextBox:removeCharacter()
-	local curName = foundWaveTables[Selector.index].filename
+	if self.cursor == 1 then
+		return
+	end
+	local curName = self:getText()
 	if self.cursor == #curName +1 then
 		local endPos = #curName -1
 		foundWaveTables[Selector.index].filename = curName:sub(1,endPos)
@@ -96,6 +105,9 @@ function TextBox:removeCharacter()
 		local right = curName:sub(self.cursor)
 		foundWaveTables[Selector.index].filename =left .. right
 		self.cursor = self.cursor - 1
+	end
+	if self.cursor < 1 then
+		self.cursor = 1
 	end
 end
 
@@ -109,15 +121,16 @@ function keyboardCallback(self,key)
 		end
 	elseif  key == "Right" then
 		self.cursor = self.cursor  + 1
-		if self.cursor >  #foundWaveTables[Selector.index].filename +1 then
-			self.cursor = #foundWaveTables[Selector.index].filename +1
+		if self.cursor >   #self:getText() +1 then
+			self.cursor =  #self:getText() +1
 		end
-	elseif key ~= nil and #foundWaveTables[Selector.index].filename < self.maxCharacter  then
+	elseif key ~= nil and  #self:getText() < self.maxCharacter  then
 		self:insertCharacter(key)
 	end
 end
 
 function TextBox:update()
+	self:checkCursor()
 	if self.captured == false then
 		return
 	elseif  emu.isKeyPressed("Enter") then
